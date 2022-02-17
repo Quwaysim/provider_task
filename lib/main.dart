@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_task/core/router/route_paths.dart';
 import 'package:provider_task/core/router/router.dart';
-import 'package:provider_task/ui/registration/registration_page.dart';
-import 'package:provider_task/ui/registration/registration_page_vm.dart';
+
+import 'package:provider_task/core/models/provider.dart';
 
 void main() {
   runApp(

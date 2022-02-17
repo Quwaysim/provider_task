@@ -3,9 +3,12 @@ import 'package:logger/logger.dart';
 import 'package:provider_task/core/services/api_service.dart';
 import 'package:provider_task/ui/verification/verification_page.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider_task/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationModel extends ChangeNotifier {
   final _api = ApiService();
+
   final log = Logger();
 
   bool _isBusy = false;
@@ -17,6 +20,7 @@ class RegistrationModel extends ChangeNotifier {
   }
 
   createAccount(String email, BuildContext context) async {
+    final _sharedPref = await SharedPreferences.getInstance();
     if (!email.contains('@') || email == '') {
       _showSnackBar(
         text: 'Please enter a valid email',
@@ -31,7 +35,7 @@ class RegistrationModel extends ChangeNotifier {
       isLoading(false);
       if (response.statusCode == 200) {
         log.i('Success ${response.data}');
-
+        _sharedPref.setString(emailKey, email);
         _showSnackBar(
           text:
               response.data['detail'] ?? 'Please check your mail for your OTP',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_task/ui/registration/registration_page_vm.dart';
+import 'package:provider_task/core/models/provider.dart';
 
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({Key? key}) : super(key: key);

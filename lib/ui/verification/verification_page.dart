@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_task/ui/registration/registration_page_vm.dart';
+import 'package:provider_task/core/models/provider.dart';
 import 'package:provider_task/utils/colors.dart';
 import 'package:provider_task/utils/text_styles.dart';
 

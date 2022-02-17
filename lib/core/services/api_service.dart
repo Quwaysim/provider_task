@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:provider_task/utils/api_handlers/api_handler.dart';
 import 'package:provider_task/utils/api_handlers/dio_interceptors.dart';
+import 'package:provider_task/utils/constants.dart';
 
 class ApiService implements Api {
   final log = Logger();
@@ -21,7 +22,7 @@ class ApiService implements Api {
   Future<dynamic> post({
     required String endpoint,
     Map<String, dynamic>? body,
-    required Map<String, dynamic>? headers,
+    Map<String, dynamic>? headers,
   }) async {
     log.i('Making request to $apiUrl');
     try {
@@ -36,12 +37,7 @@ class ApiService implements Api {
       return response;
     } on DioError catch (e) {
       log.i('DIO Exception ${e.response!.data.toString()}');
-      if (e.response!.data!['Message'] == String) {
-        return e.response!.data;
-      } else if (e.response!.data!['Message'] != String) {
-        return e.response!.data ?? 'An Error Occured';
-      }
-      log.w(e.toString());
+      return e.response;
     } on SocketException {
       return 'check your internet connection';
     }
@@ -64,12 +60,7 @@ class ApiService implements Api {
       return response;
     } on DioError catch (e) {
       log.i('DIO Exception ${e.response!.data.toString()}');
-      if (e.response!.data!['Message'] == String) {
-        return e.response!.data;
-      } else if (e.response!.data!['Message'] != String) {
-        return e.response!.data ?? 'An Error Occured';
-      }
-      log.w(e.toString());
+      return e.response;
     } on SocketException {
       return 'check your internet connection';
     }
@@ -93,41 +84,51 @@ class ApiService implements Api {
       return response;
     } on DioError catch (e) {
       log.i('DIO Exception ${e.response!.data.toString()}');
-      if (e.response!.data!['Message'] == String) {
-        return e.response!.data;
-      } else if (e.response!.data!['Message'] != String) {
-        return e.response!.data ?? 'An Error Occured';
-      }
-      log.w(e.toString());
+      return e.response;
     } on SocketException {
       return 'check your internet connection';
     }
   }
 
   @override
-  Future getApiToken({required String? email, required String password}) {
-    // TODO: implement getApiToken
-    throw UnimplementedError();
+  Future register({required String? email}) async {
+    return await post(endpoint: registrationEndpoint, body: {'email': email});
   }
 
   @override
-  Future getUserProfile() {
-    // TODO: implement getUserProfile
-    throw UnimplementedError();
+  Future getApiToken({required String? email, required String token}) async {
+    return await post(endpoint: getTokenEndpoint, body: {
+      'email': email,
+      'token': token,
+    });
   }
 
   @override
-  Future register({required String? email}) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future getUserProfile({required String token}) async {
+    final headers = {
+      'Authorization': 'Token $token',
+    };
+    return await get(endpoint: userProfileEndpoint, headers: headers);
   }
 
   @override
-  Future updateUserProfile(
-      {required String firstName,
-      required String lastName,
-      required String country}) {
-    // TODO: implement updateUserProfile
-    throw UnimplementedError();
+  Future updateUserProfile({
+    required String firstName,
+    required String lastName,
+    required String country,
+    required String token,
+  }) async {
+    final headers = {
+      'Authorization': 'Token $token',
+    };
+    return await put(
+      endpoint: updateUserProfileEndpoint,
+      body: {
+        'first_name': firstName,
+        'last_name': lastName,
+        'country': country
+      },
+      headers: headers,
+    );
   }
 }

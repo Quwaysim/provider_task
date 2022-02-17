@@ -5,14 +5,15 @@ abstract class Api {
 
   Future<dynamic> getApiToken({
     required String? email,
-    required String password,
+    required String token,
   });
 
-  Future<dynamic> getUserProfile();
+  Future<dynamic> getUserProfile({required String token});
 
   Future<dynamic> updateUserProfile({
     required String firstName,
     required String lastName,
     required String country,
+    required String token,
   });
 }

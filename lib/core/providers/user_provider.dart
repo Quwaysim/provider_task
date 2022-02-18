@@ -9,10 +9,10 @@ import 'package:provider_task/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
-  UserProvider(this._sharedPref);
-  final _api = ApiService();
-  SharedPreferences _sharedPref;
-  final log = Logger();
+  UserProvider(this._sharedPref, this._api);
+  final ApiService _api;
+  final SharedPreferences _sharedPref;
+  final Logger log = Logger();
   String? _firstName;
   String? _lastName;
   String? _country;
@@ -41,9 +41,9 @@ class UserProvider extends ChangeNotifier {
     if (response != String) {
       isLoading(false);
       if (response.statusCode == 200) {
-        _firstName = response.data['first_name'];
-        _lastName = response.data['last_name'];
-        _country = response.data['profile']['country'];
+        _firstName = response.data['first_name'] ?? 'null';
+        _lastName = response.data['last_name'] ?? 'null';
+        _country = response.data['profile']['country'] ?? 'null';
         _showSnackBar(
           text: 'User profile successfully fetched',
           context: context,
@@ -77,6 +77,14 @@ class UserProvider extends ChangeNotifier {
         context: context,
         type: SnackBarType.failure,
       );
+
+      return;
+    } else if (countryController.text.length > 2) {
+      _showSnackBar(
+        text: 'Country code cannot be more than 2 characters.',
+        context: context,
+        type: SnackBarType.failure,
+      );
       return;
     }
     isLoading(true);
@@ -92,25 +100,28 @@ class UserProvider extends ChangeNotifier {
       isLoading(false);
       if (response.statusCode == 200) {
         log.i('Success ${response.data}');
+
+        //TODO - endpoint has issues, navigate anyways, change values with Provider
+        _firstName = firstNameController.text;
+        _lastName = lastNameController.text;
+        _country = countryController.text;
+        notifyListeners();
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 500),
+            reverseDuration: const Duration(milliseconds: 500),
+            child: const UserProfilePage(),
+          ),
+        );
         _showSnackBar(
           text: 'User profile updated',
           context: context,
           type: SnackBarType.success,
         );
-        //TODO - endpoint has issues, navigate anyways, change values with Provider
-
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     type: PageTransitionType.fade,
-        //     duration: const Duration(milliseconds: 500),
-        //     reverseDuration: const Duration(milliseconds: 500),
-        //     child: const UserProfilePage(),
-        //   ),
-        // );
       } else {
         log.e('Status: ${response.statusCode} Error ${response.data}');
-
         //TODO - logically shouldn't be here --- MOCK -- endpoint has issues
         //changing values with Provider
         _firstName = firstNameController.text;

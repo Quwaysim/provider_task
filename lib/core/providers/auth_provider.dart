@@ -10,11 +10,11 @@ import 'package:provider_task/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
-  AuthProvider(this._sharedPref);
+  AuthProvider(this._sharedPref, this._api);
 
-  final _api = ApiService();
-  SharedPreferences _sharedPref;
-  final log = Logger();
+  final ApiService _api;
+  final SharedPreferences _sharedPref;
+  final Logger log = Logger();
 
   bool _isBusy = false;
 
@@ -26,7 +26,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   createAccount(String email, BuildContext context) async {
-    _sharedPref = await SharedPreferences.getInstance();
     if (!email.contains('@') || email == '') {
       _showSnackBar(
         text: 'Please enter a valid email',

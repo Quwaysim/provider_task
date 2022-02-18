@@ -30,12 +30,6 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle defaultFaintTextStyle = GoogleFonts.inter(
-    color: AppColors.faintTextColor2,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-  );
-
   static TextStyle textfieldHint = GoogleFonts.inter(
     color: AppColors.hintTextColor,
     fontSize: 12,
@@ -48,20 +42,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle faintTextStyle = GoogleFonts.inter(
-    color: AppColors.faintTextColor,
-    fontSize: 14,
-  );
-
-  static TextStyle bigBoldTextStyle = GoogleFonts.inter(
-    color: AppColors.defaultTextColor,
-    fontSize: 18,
-    fontWeight: FontWeight.w700,
-  );
-
   static TextStyle bigBoldTextStyle14 = GoogleFonts.inter(
     color: AppColors.defaultTextColor,
     fontSize: 14,
     fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle labelextStyle = GoogleFonts.inter(
+    color: AppColors.primaryColor,
+    fontSize: 14,
   );
 }

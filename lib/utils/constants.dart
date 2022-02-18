@@ -9,7 +9,8 @@ const String userProfileEndpoint = 'accounts/user/';
 
 ///Endpoint to update user details - PUT.
 const String updateUserProfileEndpoint =
-    'accounts/name-and-country-of-residence/update/';
+    'accounts/name-and-country-of-residence/update';
 
 //SharedPreferences Keys
 const String emailKey = 'email';
+const authTokenKey = 'authToken';

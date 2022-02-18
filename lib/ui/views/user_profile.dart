@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_task/core/providers/user_provider.dart';
 import 'package:provider_task/ui/views/update_profile.dart';
+import 'package:provider_task/utils/text_styles.dart';
 
 import '../../utils/colors.dart';
 import '../shared/custom_button.dart';
@@ -13,6 +14,8 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var h = MediaQuery.of(context).size.height;
+
     return Consumer<UserProvider>(
       builder: (context, provider, child) => ModalProgressHUD(
         inAsyncCall: provider.isBusy,
@@ -25,18 +28,42 @@ class UserProfilePage extends StatelessWidget {
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
+                  SizedBox(height: h * 0.1),
                   Text(
-                    provider.firstName ?? '',
+                    'User Profile',
+                    style: AppTextStyles.Headline1,
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    provider.lastName ?? '',
+                  SizedBox(height: h * 0.05),
+                  Row(
+                    children: [
+                      const Text('First Name:'),
+                      const SizedBox(width: 10),
+                      Text(
+                        provider.firstName ?? '',
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    provider.country ?? '',
+                  SizedBox(height: h * 0.02),
+                  Row(
+                    children: [
+                      const Text('Last Name:'),
+                      const SizedBox(width: 10),
+                      Text(
+                        provider.lastName ?? '...',
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: h * 0.02),
+                  Row(
+                    children: [
+                      const Text('Country:'),
+                      const SizedBox(width: 10),
+                      Text(
+                        provider.country ?? '',
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: h * 0.05),
                   CustomButton(
                     onPressed: () {
                       Provider.of<UserProvider>(context, listen: false)
@@ -44,7 +71,7 @@ class UserProfilePage extends StatelessWidget {
                     },
                     label: 'Get User Profile',
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: h * 0.03),
                   CustomButton(
                     outlineColor: AppColors.primaryColor,
                     onPressed: () {
